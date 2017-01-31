@@ -1,0 +1,19 @@
+\frametitle{Some plotting capability}
+
+
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(debateformality)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=3in]{figures/knitr-formalityplot-1}
+
+}
+
+
+
+\end{knitrout}
+
+

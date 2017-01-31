@@ -1,0 +1,281 @@
+summary(felm(V1 ~ l1ylogmonsoon |  code + rpt | 0 | districtmatch, data=TT))
+NES[, b1cdum := b1c==1 | b1c==2]
+summary(felm(b1cdum ~ l1ylogmonsoon |  rpt | 0 | distid, data=NES))
+summary(felm(b1cdum ~ logmonsoon |  rpt | 0 | distid, data=NES))
+summary(felm(b1cdum ~ logmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(b1cdum ~ l1ylogmonsoon + logmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(b1cdum ~ l1ylogmonsoon  |  code + rpt | 0 | distid, data=NES))
+NES[, CPIdum := q1a=="04"]
+NES
+NES[CPIdum==TRUE]
+NES[, CPIdum := q1a=="4"]
+NES
+NES[CPIdum==TRUE]
+summary(felm(CPIdum ~ l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~ pastevents+ l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~ pastevents:l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~ pastevents*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIdum := q1a=="4" | q1a=="5"]
+summary(felm(CPIdum ~ pastevents*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  logmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  logmonsoon  + l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIdum := q1a=="4" | q1a=="5" | q1a=="21"]
+summary(felm(CPIdum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[CPIdum==TRUE]
+summary(felm(CPIdum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES
+names(NREGA)
+grep("phase|treat",names(NREGA),value=TRUE)
+grep("phase",names(NREGA),value=TRUE)
+NES<-NES2
+NES <-join(NES,NREGA[year==2009, list(l1ylogmonsoon, logmonsoon, code, districtmatch, rpt, totalevents,treat,treatment,yeartreated)])[!is.na(distid)]#
+NES <-join(NES,NREGA[year<=2009, list(pastevents=sum(totalevents,na.rm=TRUE)), by=c("code","districtmatch")])[!is.na(distid)]
+summary(felm(CPIdum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIdum := q1a=="4" | q1a=="5" | q1a=="21"]
+summary(felm(CPIdum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+INDIA
+IND
+head(IND.data)
+IND.data[, list(code, districtamtch, elasticity= elstxpt)]
+IND.data[, list(code, districtmatch, elasticity= elstxpt)]
+IND.data[, list(code, districtmatch, elasticity= elstxpt)][elasticity!=0]
+IND.data[, list(code, districtmatch, elasticity= elstxpt)]
+join(NES,IND.data[, list(code, districtmatch, elasticity= elstxpt)])
+NES<-join(NES,IND.data[, list(code, districtmatch, elasticity= elstxpt)])
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  code | 0 | distid, data=NES))
+summary(felm(CPIdum ~  elasticity:l1ylogmonsoon |  code | 0 | distid, data=NES))
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  rpt | 0 | distid, data=NES))
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES))
+NES[, .N, by=q1a]
+NES[, .N, by=q1a][order(N)]
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  elasticity*logmonsoon |  code+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  elasticity*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q1a<90]))
+PCNUM[, .N, by=c("state","constituency_id","district_name")]
+head(NES)
+PCNUM
+PCNUM[, .N, by=c("state","constituency","district_name")]
+summary(felm(CPIdum ~  logmonsoon |  code+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  l1ylogmonsoon |  srt+rpt | 0 | distid, data=NES[q1a<90]))
+head(NREGA)
+grep("srt", names(NREGA), value=TRUE)
+NES
+NES<-NES2
+NES<-join(NES, DIST[, list(distid,code, districtmatch)])#
+#
+NREGA<-data.table(read.dta(file="~/Dropbox/Research/NREGA Active/NREGA.PAN.1998-2014.dta"))#
+NES <-join(NES,NREGA[year==2009, list(l1ylogmonsoon, logmonsoon, code, districtmatch, srt,rpt, totalevents,treat,treatment,yeartreated)])[!is.na(distid)]#
+NES <-join(NES,NREGA[year<=2009, list(pastevents=sum(totalevents,na.rm=TRUE)), by=c("code","districtmatch")])[!is.na(distid)]#
+NES<-join(NES,IND.data[, list(code, districtmatch, elasticity= elstxpt)])#
+#
+NES[, CPIdum := q1a=="4" | q1a=="5" | q1a=="21"]
+NES
+summary(felm(CPIdum ~  l1ylogmonsoon |  srt+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  logmonsoon |  srt+rpt | 0 | distid, data=NES[q1a<90]))
+summary(felm(CPIdum ~  l1ylogmonsoon |  srt+rpt | 0 | distid, data=NES[q1a<90]))
+NES[, CPIfeeldum := q11a=="4" | q1a=="5" | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q1a=="5" | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):logmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q1a=="5" | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon + logmonsoon |  srt + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q1a=="5" | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  srt + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5" | q11a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  srt + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5" | q11a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  srt + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code  | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt  | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  code +  yeartreated | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  code +  yeartreated | 0 | distid, data=NES))
+NES[, CPIfeeldum :=   q11a=="5"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  code +  yeartreated | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"  | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"  | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  srt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"  | q1a=="21"]#
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  srt | 0 | srt, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"  | q1a=="21"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  srt | 0 | distid, data=NES))
+NES[, CPIfeeldum := q11a=="4" | q11a=="5"  | q1a=="21"]#
+summary(felm(CPIfeeldum ~  l1ylogmonsoon |  srt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPIfeeldum ~  factor(yeartreated):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+NES[, NREGABEN := c14b2==1]
+summary(felm(CPIfeeldum ~  factor(NREGABEN):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPIfeeldum ~  as.numeric(NREGABEN):l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPIfeeldum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPI ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90][c14b1==1]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code + rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN) |  code+rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+summary(felm(CPIdum ~  l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[q11a<90][c14b1=="1"]))
+NES[, .N, by=c("c14b1","c14b2")]
+NES[q11a < 90][c14b1 == "1"]
+NES[, .N, by=c("c14b1","c14b2")]
+NES[c14b1=="1"]
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[c14b1=="1"]))
+summary(felm(CPIfeeldum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[c14b1=="1"]))
+summary(felm(CPIdum ~  as.numeric(NREGABEN)*l1ylogmonsoon |  code+rpt | 0 | distid, data=NES[c14b1=="1"]))
+DAT<-data.table(read.csv(file="~/Dropbox/Research/Sam Joana Thiemo/Data/FINBRA/checking 1/Quadro1 89-98 no BR.csv"))
+library(data.table)
+DAT<-data.table(read.csv(file="~/Dropbox/Research/Sam Joana Thiemo/Data/FINBRA/checking 1/Quadro1 89-98 no BR.csv"))
+DAT<-data.table(read.csv(file="~/Dropbox/Research/Sam Joana Thiemo/Data/FINBRA/checking 1/Quadro1 89-98 no BR.csv", fileEncoding="latin1"))
+head(DAT)
+load("/Users/thiemo/Dropbox/Research/Sam Joana Thiemo/Data/FINBRA/MAPALL.rdata")
+MAPALL
+join(MAPALL,DAT)
+library(plyr)
+join(DAT,MAPALL)
+join(DAT,MAPALL)[is.na(matchedIBGE)]
+join(DAT,MAPALL)[is.na(matchedIBGE)][, .N, by=Year]
+join(DAT,MAPALL)
+MAPALL[CD_UF=="52" & CD_MUN=="2157"]
+DAT[UF==""]
+DAT[UF==""]$UF<-NA
+class(DAT$UF)
+DAT$UF<-as.character(DAT$UF)
+DAT[UF==""]$UF<-NA
+join(DAT,MAPALL)
+MAPALL[CD_UF=="52" & CD_MUN=="2157"]
+class(DAT$CD_UF)
+class(DAT$CD_MUN)
+class(MAPALL$CD_UF)
+class(MAPALL$CD_MUN)
+DAT[REGIÍES.E.MUNICêPIOS==""]$REGIÍES.E.MUNICêPIOS <-NA
+DAT$REGIÍES.E.MUNICêPIOS<-as.character(DAT$REGIÍES.E.MUNICêPIOS)
+DAT[REGIÍES.E.MUNICêPIOS==""]$REGIÍES.E.MUNICêPIOS <-NA
+DAT
+join(DAT,MAPALL)
+join(DAT,MAPALL)[matchedIBGE=="130040"]
+QUADRO1<-join(DAT,MAPALL)
+QUADRO1
+QUADRO1[, .N, by=matchedIBGE]
+QUADRO1[, .N, by=matchedIBGE][N>5]
+QUADRO1[matchedIBGE== 130110]
+QUADRO1[, .N, by=matchedIBGE]
+QUADRO1[, .N, by=matchedIBGE][, .N]
+QUADRO1[, .N, by=matchedIBGE][, .N, by=N]
+QUADRO1[, .N, by=matchedIBGE][, .N, by=N][order(N)]
+QUADRO1[matchedIBGE== 130110]
+QUADRO1[, .N, by=matchedIBGE]
+QUADRO1[, .N, by=matchedIBGE][order(N)]
+QUADRO1[matchedIBGE== 290290]
+QUADRO1[, .N, by=matchedIBGE][order(N)]
+QUADRO1[, .N, by=matchedIBGE][order(N)][N==8]
+QUADRO1[matchedIBGE== 150170]
+QUADRO1
+QUADRO1[, list(RECOR.AMENTçRIA=mean(RECOR.AMENTçRIA,na.rm=TRUE), RECCORRENTE=mean(RECCORRENTE, na.rm=TRUE), RECTRIBUTçRIA=mean(RECTRIBUTçRIA,na.rm=TRUE), TOTAL.IMPOSTOS=mean(TOTAL.IMPOSTOS, na.rm=TRUE), IPTU=mean(IPTU, na.rm=TRUE), ISS=mean(ISS,na.rm=TRUE), IVVC=mean(IVVC, na.rm=TRUE), TAXAS=mean(TAXAS,na.rm=TRUE), PODERDEPOLICIA=mean(PODERDEPOLICIA,na.rm=TRUE), PRESTSERVI.O=mean(PRESTSERVI.O,na.rm=TRUE)), by=c("Year","matchedIBGE")]
+QUADRO1.COLLAPSE<-QUADRO1[, list(RECOR.AMENTçRIA=mean(RECOR.AMENTçRIA,na.rm=TRUE), RECCORRENTE=mean(RECCORRENTE, na.rm=TRUE), RECTRIBUTçRIA=mean(RECTRIBUTçRIA,na.rm=TRUE), TOTAL.IMPOSTOS=mean(TOTAL.IMPOSTOS, na.rm=TRUE), IPTU=mean(IPTU, na.rm=TRUE), ISS=mean(ISS,na.rm=TRUE), IVVC=mean(IVVC, na.rm=TRUE), TAXAS=mean(TAXAS,na.rm=TRUE), PODERDEPOLICIA=mean(PODERDEPOLICIA,na.rm=TRUE), PRESTSERVI.O=mean(PRESTSERVI.O,na.rm=TRUE)), by=c("Year","matchedIBGE")]
+QUADRO1.COLLAPSE
+QUADRO1.COLLAPSE[matchedIBGE=="130040"]
+MAPALL
+MAPALL[, .N, by=c("NOME","matchedIBGE")]
+MAPALL[, .N, by=c("NOME","matchedIBGE")][!is.n(NOME)]
+MAPALL[, NAME := NOME]
+MAPALL[is.na(NAME) & !is.na(REGIÍES.E.MUNICêPIOS)]
+MAPALL[is.na(NAME) & !is.na(REGIÍES.E.MUNICêPIOS), NAME := REGIÍES.E.MUNICêPIOS]
+MAPALL[, .N, by=c("NAME","matchedIBGE")]
+MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)]
+join(QUADRO1.COLLAPSE, MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)])
+class(QUADRO1.COLLAPSE$matchedIBGE)
+class(MAPALL$matchedIBGE)
+class(MAPALL$NAME)
+options(stringsAsFactors=FALSE)
+join(QUADRO1.COLLAPSE, MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)])
+MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)]
+MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)][, 1:2, with=F]
+NAMES<-MAPALL[, .N, by=c("NAME","matchedIBGE")][!is.na(matchedIBGE)][, 1:2, with=F]
+join(QUADRO1.COLLAPSE,NAMES)
+join(NAMES, QUADRO1.COLLAPSE)
+QUADRO1.COLLAPSE
+QUADRO1.COLLAPSE[matchedIBGE=="130068"]
+MAPALL[NAME=="ABADIA DOS DOURADOS"]
+QUADRO1.COLLAPSE[matchedIBGE=="310010"]
+DAT
+DAT[is.na(PODERDEPOLICIA)]
+DAT[PODERPOLICIA==0]
+DAT[PODERDEPOLICIA ==0]
+class(DAT$PODERDEPOLICIA])
+class(DAT$PODERDEPOLICIA)
+DAT$PODERDEPOLICIA<-as.numeric(as.character(DAT$PODERDEPOLICIA))
+DAT[is.na(PODERDEPOLICIA)]
+DAT[PODERDEPOLICIA==0]
+DAT[PODERDEPOLICIA==0][, .N, by=Year]
+DAT
+DAT[PODERDEPOLICIA<=1][, .N, by=Year]
+DAT[PODERDEPOLICIA<=1]
+QUADRO1
+QUADRO1[matchedIBGE=="130040"]
+MAPALL[matchedIBGE=="130040"]
+QUADRO1
+QUADRO1.COLLAPSE
+setnames(QUADRO1.COLLAPSE, "Year","year")
+write.dta(QUADRO1.COLLAPSE, file="QUADRO1COLL.dta")
+library(foreign)
+write.dta(QUADRO1.COLLAPSE, file="QUADRO1COLL.dta")
+install.packages("ngram")
+install.packages("ngram")
+library("ngram")
+ngram
+TRUMP<-readLines(con="../Data/Trump-Speeches.txt")#
+#concatenate into one massive string, remove empty lines#
+TRUMP<-TRUMP[-grep("^SPEECH|^$", TRUMP)]
+setwd("/Users/thiemo/Dropbox/Teaching/Quantitative Text Analysis/Lecture 1")
+TRUMP<-readLines(con="../Data/Trump-Speeches.txt")#
+#concatenate into one massive string, remove empty lines#
+TRUMP<-TRUMP[-grep("^SPEECH|^$", TRUMP)]
+head(TRUMP)
+grep("\\w+", TRUMP,value=TRUE)[1:10]
+gsub("\\w+"," ",TRUMP)[1:10]
+gsub(" +"," ",TRUMP)[1:10]
+head(TRUMP)
+TRUMP[1]
+gsub(" +"," ",TRUMP)[1]
+TRUMP<-gsub(" +"," ",TRUMP) #
+TRUMP<-paste(TRUMP, collapse=" ")
+TRUMGRAM<-ngram(TRUMP, n=3)
+babble(TRUMGRAM)
+TRUMGRAM<-ngram(TRUMP, n=4)
+babble(TRUMGRAM)
+babble(TRUMP,genlen=10)
+babble(TRUMGRAM,genlen=10)
+babble(TRUMGRAM,genlen=20)
+babble(TRUMGRAM,genlen=50)
+install.packages("cmscu l")
+install.packages("cmscu")
+install.packages("textcat")
+TRUMP
+PHRASE<-get.phrasetable(TRUMGRAM)
+head(PHRASE)
+TRUMGRAM<-ngram(TRUMP, n=3)
+PHRASE<-get.phrasetable(TRUMGRAM)
+head(PHRASE)
+PHRASE[1:100]
+PHRASE[1:100,]
+TRUMGRAM<-ngram(TRUMP, n=2)
+TRUMGRAM
+PHRASE<-get.phrasetable(TRUMGRAM)
+PHRASE
+head(PHRASE)

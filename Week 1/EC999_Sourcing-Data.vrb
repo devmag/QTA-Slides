@@ -1,0 +1,24 @@
+\frametitle{Homework}
+
+Scrape the data for the presidential debates for 2016?
+
+\url{http://www.presidency.ucsb.edu/debates.php}
+
+The format should be the following:
+
+\code{pid (debate id), url, sequence within debate, debate, date,speaker, what was spoken (each fragment separately)}
+
+Hint: proceed in two steps, extract links to debate contents/ using regular expressions is most likely the easiest, to figure out start of segment spoken by an individual speaker.
+
+Submission: Friday, 20th January 11:00 am as zipped folder emailed to \url{tfetzer@uchicago.edu}. Your document should consist of a compiled Markdown HTML document, which explains the steps you are taking and prints out important features of the resulting data set.
+
+\begin{itemize}
+
+\item Number of Debates
+
+\item Number of Speakers
+
+\item \code{head()} of data.frame or data.table objects
+
+\end{itemize}
+

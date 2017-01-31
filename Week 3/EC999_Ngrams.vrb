@@ -1,0 +1,21 @@
+\frametitle{Babbling Donald Trump}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(ngram)}
+\hlstd{TRUMP} \hlkwb{<-} \hlkwd{readLines}\hlstd{(}\hlkwc{con} \hlstd{=} \hlstr{"../../Data/Trump-Speeches.txt"}\hlstd{)}
+\hlcom{# concatenate into one massive string, remove empty lines}
+\hlstd{TRUMP} \hlkwb{<-} \hlstd{TRUMP[}\hlopt{-}\hlkwd{grep}\hlstd{(}\hlstr{"^SPEECH|^$"}\hlstd{, TRUMP)]}
+\hlstd{TRUMP} \hlkwb{<-} \hlkwd{gsub}\hlstd{(}\hlstr{" +"}\hlstd{,} \hlstr{" "}\hlstd{, TRUMP)}
+\hlstd{TRUMP} \hlkwb{<-} \hlkwd{paste}\hlstd{(TRUMP,} \hlkwc{collapse} \hlstd{=} \hlstr{" "}\hlstd{)}
+\hlstd{TRUMP} \hlkwb{<-} \hlkwd{ngram}\hlstd{(TRUMP,} \hlkwc{n} \hlstd{=} \hlnum{3}\hlstd{)}
+\hlkwd{str_break}\hlstd{(}\hlkwd{babble}\hlstd{(TRUMP,} \hlkwc{genlen} \hlstd{=} \hlnum{35}\hlstd{,} \hlkwc{seed} \hlstd{=} \hlnum{130}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] "I have as big a heart as anybody. We want to win Iowa, folks. Because look, I love the poo"
+## [2] "rly educated. We’re the smartest people, we’re the most loyal people by far. Everybody say"
+## [3] "s it. "
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
